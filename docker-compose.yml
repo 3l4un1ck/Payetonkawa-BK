@@ -10,14 +10,23 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
 
+  mongo:
+    image: mongo
+    container_name: auth-mongo
+    ports:
+      - "27017:27017"
+
   auth-service:
     build: ./auth-service
     ports:
       - "3000:3000"
     depends_on:
       - rabbitmq
+      - mongo
     environment:
       - RABBITMQ_URL=amqp://rabbitmq
+      - MONGO_URI=mongodb://mongo:27017/auth-db
+      - JWT_SECRET=supersecret
 
   products-service:
     build: ./products-service
