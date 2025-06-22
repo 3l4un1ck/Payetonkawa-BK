@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import {AuthService} from "../../application/auth.service";
+import {IAddress} from "../../domain/types/address";
 
 
 const authService = new AuthService();
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response): Promise<void> => {
     try {
         const {
             email,
@@ -13,11 +14,17 @@ export const register = async (req: Request, res: Response) => {
             lastName,
             phoneNumber,
             address
+        }: {
+            email: string;
+            password: string;
+            firstName: string;
+            lastName: string;
+            phoneNumber: string;
+            address: IAddress;
         } = req.body;
 
-        // Validate request body
         if (!email || !password || !firstName || !lastName || !phoneNumber || !address) {
-            return res.status(400).json({
+            res.status(400).json({
                 error: 'Missing required fields',
                 requiredFields: [
                     'email',
@@ -28,12 +35,13 @@ export const register = async (req: Request, res: Response) => {
                     'address'
                 ]
             });
+            return;
         }
 
         // Validate address object
         if (!address.street || !address.city || !address.state ||
             !address.country || !address.postalCode) {
-            return res.status(400).json({
+            res.status(400).json({
                 error: 'Invalid address format',
                 requiredAddressFields: [
                     'street',
@@ -43,6 +51,7 @@ export const register = async (req: Request, res: Response) => {
                     'postalCode'
                 ]
             });
+            return;
         }
 
         const user = await authService.register(
@@ -54,7 +63,6 @@ export const register = async (req: Request, res: Response) => {
             address
         );
 
-        // Return success response without sensitive information
         res.status(201).json({
             id: user.id,
             email: user.email,
@@ -64,17 +72,16 @@ export const register = async (req: Request, res: Response) => {
             shippingAddresses: user.shippingAddresses,
             createdAt: user.createdAt
         });
-
     } catch (err: any) {
-        // Handle specific error cases
         if (err.message.includes('already exists')) {
-            return res.status(409).json({ error: err.message });
+            res.status(409).json({ error: err.message });
+            return;
         }
         if (err.message.includes('Invalid')) {
-            return res.status(400).json({ error: err.message });
+            res.status(400).json({ error: err.message });
+            return;
         }
 
-        // Log unexpected errors but don't expose details to a client
         console.error('Registration error:', err);
         res.status(500).json({ error: 'An error occurred during registration' });
     }
