@@ -5,60 +5,60 @@ const router = Router();
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Address:
- *       type: object
- *       required:
- *         - street
- *         - city
- *         - state
- *         - country
- *         - postalCode
- *       properties:
- *         street:
- *           type: string
- *           description: Street address
- *         city:
- *           type: string
- *           description: City name
- *         state:
- *           type: string
- *           description: State or province
- *         country:
- *           type: string
- *           description: Country name
- *         postalCode:
- *           type: string
- *           description: Postal or ZIP code
- *         isDefault:
- *           type: boolean
- *           description: Whether this is the default address
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - firstName
+ *               - lastName
+ *               - phoneNumber
+ *               - address
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               phoneNumber:
+ *                 type: string
+ *               address:
+ *                 type: object
+ *                 properties:
+ *                   street:
+ *                     type: string
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   country:
+ *                     type: string
+ *                   postalCode:
+ *                     type: string
  *
- *     RegisterRequest:
- *       type: object
- *       required:
- *         - email
- *         - password
- *         - firstName
- *         - lastName
- *         - phoneNumber
- *         - address
- *       properties:
- *         email:
- *           type: string
- *           format: email
- *         password:
- *           type: string
- *           format: password
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
- *         phoneNumber:
- *           type: string
- *         address:
- *           $ref: '#/components/schemas/Address'
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userId:
+ *                   type: string
  */
 router.post("/register", register);
 
