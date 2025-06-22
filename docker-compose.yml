@@ -12,6 +12,8 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     restart: always
+    networks:
+      - payetonkawa-net
 
   mongo:
     image: mongo
@@ -21,6 +23,8 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: always
+    networks:
+        - payetonkawa-net
 
   auth-service:
     build: ./auth-service
@@ -34,6 +38,8 @@ services:
       - MONGO_URI=mongodb://mongo:27017/auth-db
       - JWT_SECRET=supersecret
     restart: always
+    networks:
+      - payetonkawa-net
 
 volumes:
   rabbitmq-data:
@@ -57,3 +63,7 @@ volumes:
 #      - rabbitmq
 #      - auth-service
 #      - products-service
+
+networks:
+  payetonkawa-net:
+    driver: bridge

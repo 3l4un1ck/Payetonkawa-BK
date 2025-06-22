@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { AppDataSource } from "./config/database";
 import authRoutes from "./interfaces/routes/auth.routes";
 import {EventPublisher} from "./infrastructure/events/publisher";
+import docsRoutes from "./interfaces/routes/docs.routes";
 
 dotenv.config();
 
@@ -11,7 +12,11 @@ const app = express();
 app.use(express.json());
 app.use("/auth", authRoutes);
 
-const PORT = process.env.PORT || 3000;
+// Documentation routes
+app.use('/', docsRoutes);
+
+
+const PORT = process.env.PORT ?? 3000;
 
 AppDataSource.initialize()
     .then(async () => {
