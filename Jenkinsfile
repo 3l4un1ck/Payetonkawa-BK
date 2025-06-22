@@ -9,7 +9,7 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                         userRemoteConfigs: [[
-                        url: 'https://github.com/3l4un1ck/integration-continue.git',
+                        url: 'https://github.com/3l4un1ck/Payetonkawa-BK.git',
                         credentialsId: 'github-creds'
                     ]]
                ])
