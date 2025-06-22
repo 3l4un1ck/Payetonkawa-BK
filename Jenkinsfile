@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo '=== Starting Auth Service ==='
                 sh 'chmod +x ./execute.sh'
-//                 sh './execute.sh auth-service'
+                sh './execute.sh'
             }
         }
     }
