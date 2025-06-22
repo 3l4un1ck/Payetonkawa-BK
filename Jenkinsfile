@@ -19,8 +19,8 @@ pipeline {
         stage('Run Auth Service') {
             steps {
                 echo '=== Starting Auth Service ==='
-                sh 'chmod +x ./execute.sh'
-                sh './execute.sh'
+                sh 'docker-compose up -d --build auth-service'
+                echo '=== Auth Service Started ==='
             }
         }
     }
