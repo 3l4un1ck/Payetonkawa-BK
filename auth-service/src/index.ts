@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { AppDataSource } from "./config/database";
 import authRoutes from "./interfaces/routes/auth.routes";
-import {EventPublisher} from "./infrastructure/events/publisher";
+// import {EventPublisher} from "./infrastructure/events/publisher";
 import docsRoutes from "./interfaces/routes/docs.routes";
 
 dotenv.config();
@@ -21,7 +21,7 @@ const PORT = process.env.PORT ?? 3000;
 AppDataSource.initialize()
     .then(async () => {
 
-        await EventPublisher.connect();
+        // await EventPublisher.connect();
         app.listen(PORT, () => console.log(`Auth Service running on port ${PORT}`));
     })
     .catch((err) => console.error("DB connection error", err));
