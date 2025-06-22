@@ -1,10 +1,11 @@
 import { Entity, ObjectIdColumn, Column } from "typeorm";
 import {IAddress} from "../../../domain/types/address";
+import {ObjectId} from "mongodb";
 
 @Entity()
 export class User {
-    @ObjectIdColumn('uuid')
-    id!: string;
+    @ObjectIdColumn()
+    id!: ObjectId;
 
     @Column()
     email!: string;
