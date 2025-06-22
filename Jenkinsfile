@@ -37,4 +37,25 @@ pipeline {
             }
         }
     }
+
+
+    post {
+        always {
+            mail to: 'elaurichenickson@gmail.com',
+                 subject: "Build Notification: ${currentBuild.fullDisplayName}",
+                 body: """
+                 Hello,
+
+
+                 The pipeline '${env.JOB_NAME}' has completed.
+                 Build Number: ${env.BUILD_NUMBER}
+                 Status: ${currentBuild.currentResult}
+
+                 You can view the build details at: ${env.BUILD_URL}
+
+                 Regards,
+                 Jenkins
+                 """
+        }
+    }
 }
