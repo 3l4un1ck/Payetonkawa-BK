@@ -7,7 +7,7 @@ pipeline {
                 echo '=== Starting Checkout ==='
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],
+                    branches: [[name: '*/master']],
                         userRemoteConfigs: [[
                         url: 'https://github.com/3l4un1ck/Payetonkawa-BK.git',
                         credentialsId: 'github-creds'
