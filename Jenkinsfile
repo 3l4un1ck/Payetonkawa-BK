@@ -16,6 +16,19 @@ pipeline {
                echo '=== Finished Checkout ==='
            }
         }
+
+        stage('Restart Auth Service Clean') {
+            steps {
+                echo '=== Stopping and Removing Old Containers ==='
+                sh 'docker-compose down'
+                echo '=== Cleaning Up Docker Resources ==='
+                sh 'docker system prune -f'
+                echo '=== Starting Fresh Auth Service ==='
+                sh 'docker-compose up -d --build'
+                echo '=== Auth Service Restarted ==='
+            }
+        }
+
         stage('Run Auth Service') {
             steps {
                 echo '=== Starting Auth Service ==='
