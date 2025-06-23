@@ -57,12 +57,12 @@ export class AuthService {
             preferredCurrency: 'USD'
         });
 
-        await EventPublisher.publish("user.registered", {
-            email: user.email,
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName
-        });
+        // await EventPublisher.publish("user.registered", {
+        //     email: user.email,
+        //     id: user.id,
+        //     firstName: user.firstName,
+        //     lastName: user.lastName
+        // });
 
         return await repo.save(user);
     }

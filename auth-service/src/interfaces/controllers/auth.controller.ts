@@ -81,6 +81,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             res.status(400).json({ error: err.message });
             return;
         }
+        if (err.message.includes('8 characters long')) {
+            res.status(400).json({ error: err.message });
+            return;
+        }
 
         console.error('Registration error:', err);
         res.status(500).json({ error: 'An error occurred during registration' });

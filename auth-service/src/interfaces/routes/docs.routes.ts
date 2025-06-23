@@ -13,6 +13,7 @@ router.get('/api-docs', swaggerUi.setup(specs, { explorer: true }));
 router.get('/api-docs.json', (req, res) => {
   res.json(specs);
 });
+
 router.get(
   '/redoc',
   redoc({
