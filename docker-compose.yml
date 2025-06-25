@@ -67,6 +67,11 @@ services:
     depends_on:
       - rabbitmq
       - auth-service
+    restart: always
+    networks:
+      - payetonkawa-net
+
+
 
 volumes:
   rabbitmq-data:
