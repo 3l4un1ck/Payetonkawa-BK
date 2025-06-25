@@ -1,5 +1,11 @@
 import { Router } from "express";
-import {register, login, logout, updateProfile, getUserProfile} from "../controllers/auth.controller";
+import {
+    register,
+    login,
+    logout,
+    updateProfile,
+    getUserProfile,
+} from "../controllers/auth.controller";
 
 const router = Router();
 
@@ -48,7 +54,6 @@ const router = Router();
  *                     type: string
  *                   postalCode:
  *                     type: string
- *
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -61,7 +66,6 @@ const router = Router();
  *                   type: string
  */
 router.post("/register", register);
-
 
 /**
  * @swagger
@@ -107,26 +111,23 @@ router.post("/login", login);
 /**
  * @swagger
  * /auth/logout:
- *  post:
- *  summary: Logout user
- *  tags: [Auth]
- *  requestBody:
- *  required: true
- *  content:
- *  application/json:
- *  schema:
- *  type: object
- *  properties:
- *  token:
- *  type: string
- *  description: JWT token of the user to be logged out
- *  responses:
- *  200:
- *  description: User logged out successfully
- *
+ *   post:
+ *     summary: Logout user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 description: JWT token of the user to be logged out
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
  */
-
-
 router.post("/logout", logout);
 
 /**
@@ -161,12 +162,11 @@ router.post("/logout", logout);
  *                     type: string
  *                   postalCode:
  *                     type: string
- *
  *     responses:
  *       200:
  *         description: User profile updated successfully
  */
-router.post('/update-profile', updateProfile);
+router.post("/update-profile", updateProfile);
 
 /**
  * @swagger
@@ -191,6 +191,6 @@ router.post('/update-profile', updateProfile);
  *                 lastName:
  *                   type: string
  */
-router.get('/profile', getUserProfile)
+router.get("/profile", getUserProfile);
 
 export default router;
