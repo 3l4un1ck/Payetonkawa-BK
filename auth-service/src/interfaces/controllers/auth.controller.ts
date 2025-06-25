@@ -99,3 +99,48 @@ export const login = async (req: Request, res: Response) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+export const logout = async (req: Request, res: Response) => {
+    try {
+        await authService.logout(req.body.token);
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+    try {
+        const { firstName, lastName, phoneNumber, address }: {
+            firstName?: string;
+            lastName?: string;
+            phoneNumber?: string;
+            address?: IAddress;
+        } = req.body;
+
+        if (!firstName && !lastName && !phoneNumber && !address) {
+            res.status(400).json({ error: 'No fields to update' });
+            return;
+        }
+
+        const updatedUser = await authService.updateProfile(req.user?.id as string, {
+            firstName,
+            lastName,
+            phoneNumber,
+            address
+        });
+
+        res.status(200).json(updatedUser);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+export const getUserProfile = async (req: Request, res: Response) => {
+    try {
+        const user = await authService.getUserProfile(req.user?.id as string);
+        res.status(200).json(user);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};

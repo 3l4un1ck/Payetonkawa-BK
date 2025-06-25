@@ -4,7 +4,7 @@ export class EventPublisher {
     private static channel: amqplib.Channel;
 
     static async connect() {
-        const conn = await amqplib.connect(process.env.RABBITMQ_URL || "amqp://localhost");
+        const conn = await amqplib.connect(process.env.RABBITMQ_URL ?? "amqp://localhost");
         EventPublisher.channel = await conn.createChannel();
     }
 

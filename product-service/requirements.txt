@@ -1,0 +1,13 @@
+Django>=4.2
+gunicorn
+pika
+drf-yasg
+djongo
+pymongo
+djangorestframework
+django-cors-headers
+django-environ
+django-extensions
+django-filter
+django-redis
+django-storages

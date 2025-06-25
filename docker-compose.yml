@@ -22,9 +22,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=payetonkawa
-#      - MONGO_INITDB_ROOT_PASSWORD=Abcd@1234
     restart: always
     networks:
         - payetonkawa-net
@@ -54,25 +51,26 @@ services:
       - rabbitmq
       - mongo
     environment:
-      - RABBITMQ_URL=amqp://rabbitmq
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
       - MONGO_URI=mongodb://mongo:27017/auth-db
       - JWT_SECRET=T2iZo5KGASNOTq3zXSH31WHmnFbs7FLEVJddt54h
     restart: always
     networks:
       - payetonkawa-net
 
+  products-service:
+    build: ./product-service
+    environment:
+      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rabbitmq
+      - auth-service
+
 volumes:
   rabbitmq-data:
   mongo-data:
-
-#  products-service:
-#    build: ./products-service
-#    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - rabbitmq
-#      - auth-service
 #
 #  orders-service:
 #    build: ./orders-service

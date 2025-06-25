@@ -57,12 +57,12 @@ export class AuthService {
             preferredCurrency: 'USD'
         });
 
-        // await EventPublisher.publish("user.registered", {
-        //     email: user.email,
-        //     id: user.id,
-        //     firstName: user.firstName,
-        //     lastName: user.lastName
-        // });
+        await EventPublisher.publish("user.registered", {
+            email: user.email,
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName
+        });
 
         return await repo.save(user);
     }
@@ -76,5 +76,66 @@ export class AuthService {
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
         return { token };
+    }
+
+    async logout(token: string) {
+        // For this example, we will just return a success message.
+        return { message: "User logged out successfully" };
+    }
+
+    async updateProfile(userId: string, data: any) {
+        const repo = AppDataSource.getMongoRepository(User);
+        const user = await repo.findOneBy({ id: userId });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const updatedData: Partial<User> = {};
+        if (data.firstName) updatedData.firstName = data.firstName;
+        if (data.lastName) updatedData.lastName = data.lastName;
+        if (data.phoneNumber) {
+            // Validate a phone number format
+            if (!RegExp(/^\+?[\d\s-]{10,}$/).exec(data.phoneNumber)) {
+                throw new Error('Invalid phone number format');
+            }
+            updatedData.phoneNumber = data.phoneNumber;
+        }
+        if (data.shippingAddress) {
+            updatedData.shippingAddresses = [data.shippingAddress];
+        }
+        if (data.billingAddress) {
+            updatedData.billingAddress = data.billingAddress;
+        }
+        if (data.preferredCurrency) {
+            updatedData.preferredCurrency = data.preferredCurrency;
+        }
+        if (data.marketingConsent !== undefined) {
+            updatedData.marketingConsent = data.marketingConsent;
+        }
+        await repo.update(userId, updatedData);
+        const updatedUser = await repo.findOneBy({ id: userId });
+        if (!updatedUser) {
+            throw new Error("User not found after update");
+        }
+        await EventPublisher.publish("user.profile.updated", {
+            id: updatedUser.id,
+            email: updatedUser.email,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            phoneNumber: updatedUser.phoneNumber,
+            shippingAddresses: updatedUser.shippingAddresses,
+            billingAddress: updatedUser.billingAddress,
+            preferredCurrency: updatedUser.preferredCurrency,
+            marketingConsent: updatedUser.marketingConsent
+        });
+        return updatedUser;
+    }
+
+    async getUserProfile(userId: string) {
+        const repo = AppDataSource.getMongoRepository(User);
+        const user = await repo.findOneBy({id: userId});
+        if (!user) {
+            throw new Error("User not found");
+        }
+        return user;
     }
 }

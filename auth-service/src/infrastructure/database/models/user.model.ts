@@ -22,7 +22,7 @@ export class User {
     @Column()
     phoneNumber!: string;
 
-    @Column()
+    @Column({default: true})
     isActive!: boolean;
 
     @Column()

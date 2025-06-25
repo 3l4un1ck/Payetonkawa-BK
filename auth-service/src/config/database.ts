@@ -5,6 +5,6 @@ export const AppDataSource = new DataSource({
     type: "mongodb",
     url: process.env.MONGO_URI,
     synchronize: true,
-    logging: false,
+    logging: true,
     entities: [User],
 });
