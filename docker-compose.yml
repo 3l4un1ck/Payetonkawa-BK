@@ -36,7 +36,7 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=admin
       - ME_CONFIG_MONGODB_SERVER=auth-mongo
       - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_MONGODB_URL=mongodb://localhost:27017/auth-db
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/auth-db
     depends_on:
       - mongo
     restart: always
@@ -52,7 +52,7 @@ services:
       - mongo
     environment:
       - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
-      - MONGO_URI=mongodb://localhost:27017/auth-db
+      - MONGO_URI=mongodb://mongo:27017/auth-db
       - JWT_SECRET=T2iZo5KGASNOTq3zXSH31WHmnFbs7FLEVJddt54h
     restart: always
     networks:
