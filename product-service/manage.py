@@ -3,8 +3,8 @@
 import os
 import sys
 import threading
-from productservice.consumer import start_consumer
-threading.Thread(target=start_consumer, daemon=True).start()
+# from productservice.consumer import start_consumer
+# threading.Thread(target=start_consumer, daemon=True).start()
 
 
 def main():
