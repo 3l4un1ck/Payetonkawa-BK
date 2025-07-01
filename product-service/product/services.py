@@ -1,5 +1,8 @@
-from core.models.product import Product
+
 from django.shortcuts import get_object_or_404
+
+from product.models import Product
+
 
 class ProductService:
     @staticmethod

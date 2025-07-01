@@ -8,8 +8,8 @@ def verify_token(request):
         return False
 
     try:
-        # Envoi synchrone à auth-service via RabbitMQ (simplifié ici pour l'exemple)
-        url = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672')
+        # Envoi synchronize à auth-service via RabbitMQ (simplifié ici pour l'exemple)
+        url = os.environ.get('RABBITMQ_URL', 'amqp://admin:admin@localhost:5672')
         params = pika.URLParameters(url)
         connection = pika.BlockingConnection(params)
         channel = connection.channel()
