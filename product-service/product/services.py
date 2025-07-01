@@ -1,7 +1,5 @@
-
 from django.shortcuts import get_object_or_404
-
-from product.models import Product
+from .models import Product
 
 
 class ProductService:
