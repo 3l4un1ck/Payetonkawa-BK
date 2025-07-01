@@ -75,6 +75,7 @@ services:
 
   products-service:
     build: ./product-service
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     environment:
       RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
       POSTGRES_DB: product_db
