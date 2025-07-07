@@ -3,13 +3,13 @@
 import os
 import sys
 import threading
-# from commandeservice.consumer import start_consumer
+# from productservice.consumer import start_consumer
 # threading.Thread(target=start_consumer, daemon=True).start()
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'commandeservice.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'productservice.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

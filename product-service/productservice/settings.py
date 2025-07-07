@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',  # For handling common middleware tasks
 ]
 
-ROOT_URLCONF = 'commandeservice.urls'
+ROOT_URLCONF = 'productservice.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'commandeservice.wsgi.application'
+WSGI_APPLICATION = 'productservice.wsgi.application'
 
 
 # Database

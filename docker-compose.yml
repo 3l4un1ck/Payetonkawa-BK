@@ -41,6 +41,21 @@ services:
     networks:
       - payetonkawa-net
 
+  postgres-orders:
+    image: postgres:15
+    container_name: orders-postgres
+    environment:
+      POSTGRES_DB: orders_db
+      POSTGRES_USER: orders_user
+      POSTGRES_PASSWORD: orders_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-orders-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - payetonkawa-net
+
   mongo-express:
     image: mongo-express
     container_name: mongo-express
@@ -94,7 +109,7 @@ services:
       - payetonkawa-net
 
   orders-service:
-    build: ./orders-service
+    build: ./commande-service
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8002"
     ports:
       - "8002:8002"
@@ -102,15 +117,22 @@ services:
       - rabbitmq
       - auth-service
       - products-service
+      - postgres-orders
+    environment:
+      POSTGRES_DB: orders_db
+      POSTGRES_USER: orders_user
+      POSTGRES_PASSWORD: orders_pass
+      POSTGRES_HOST: postgres-orders
+      POSTGRES_PORT: 5433
     restart: always
     networks:
       - payetonkawa-net
-
 
 volumes:
   rabbitmq-data:
   mongo-data:
   postgres-data:
+  postgres-orders-data:
 
 
 networks:
