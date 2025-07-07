@@ -93,22 +93,25 @@ services:
     networks:
       - payetonkawa-net
 
+  orders-service:
+    build: ./orders-service
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8002"
+    ports:
+      - "8002:8002"
+    depends_on:
+      - rabbitmq
+      - auth-service
+      - products-service
+    restart: always
+    networks:
+      - payetonkawa-net
 
 
 volumes:
   rabbitmq-data:
   mongo-data:
   postgres-data:
-#
-#  orders-service:
-#    build: ./orders-service
-#    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
-#    ports:
-#      - "8001:8001"
-#    depends_on:
-#      - rabbitmq
-#      - auth-service
-#      - products-service
+
 
 networks:
   payetonkawa-net:
