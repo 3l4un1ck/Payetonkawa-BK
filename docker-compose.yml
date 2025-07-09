@@ -123,16 +123,45 @@ services:
       POSTGRES_USER: orders_user
       POSTGRES_PASSWORD: orders_pass
       POSTGRES_HOST: postgres-orders
-      POSTGRES_PORT: 5433
+      POSTGRES_PORT: 5432
     restart: always
     networks:
       - payetonkawa-net
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - payetonkawa-net
+    depends_on:
+      - auth-service
+      - products-service
+      - orders-service
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3009:3000"
+    networks:
+      - payetonkawa-net
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: always
 
 volumes:
   rabbitmq-data:
   mongo-data:
   postgres-data:
   postgres-orders-data:
+  grafana-data:
 
 networks:
   payetonkawa-net:

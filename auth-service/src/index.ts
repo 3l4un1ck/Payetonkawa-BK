@@ -7,6 +7,7 @@ import authRoutes from "./interfaces/routes/auth.routes";
 import {EventPublisher} from "./infrastructure/events/publisher";
 import docsRoutes from "./interfaces/routes/docs.routes";
 import { startAuthConsumer } from "./infrastructure/events/consumer";
+import client from "prom-client";
 
 dotenv.config();
 
@@ -21,6 +22,15 @@ app.use("/auth", authRoutes);
 // Documentation routes
 app.use('/', docsRoutes);
 
+// Initialisation du registre Prometheus
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+// Endpoint /metrics
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 const PORT = process.env.PORT ?? 3000;
 

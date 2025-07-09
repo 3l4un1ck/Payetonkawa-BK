@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'corsheaders',  # For handling CORS
     'django_extensions',  # Optional: for additional management commands and shell features
     'django_filters',  # Optional: for filtering support in DRF
-    'product'
+    'product',
+    'django_prometheus',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # CORS middleware
     'django.middleware.common.CommonMiddleware',  # For handling common middleware tasks
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'productservice.urls'

@@ -37,6 +37,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/products/', include('product.urls')),
+    path('', include('django_prometheus.urls')),
 
     # Swagger UI
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',
