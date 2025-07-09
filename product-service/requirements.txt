@@ -23,3 +23,6 @@ psycopg2-binary
 drf-yasg2
 django-prometheus
 pillow
+pytest 
+pytest-django
+pytest-cov

@@ -36,26 +36,20 @@ pipeline {
                 echo '=== Auth Service Started ==='
             }
         }
+
+        stage('Test') {
+            steps {
+                sh 'pip install -r requirements.txt'
+                sh 'pytest --ds=productservice.settings --junitxml=report.xml'
+            }
+            post {
+                always {
+                    junit 'report.xml'
+                }
+            }
+        }
     }
 
 
-//     post {
-//         always {
-//             mail to: 'elaurichenickson@gmail.com',
-//                  subject: "Build Notification: ${currentBuild.fullDisplayName}",
-//                  body: """
-//                  Hello,
-//
-//
-//                  The pipeline '${env.JOB_NAME}' has completed.
-//                  Build Number: ${env.BUILD_NUMBER}
-//                  Status: ${currentBuild.currentResult}
-//
-//                  You can view the build details at: ${env.BUILD_URL}
-//
-//                  Regards,
-//                  Jenkins
-//                  """
-//         }
-//     }
+
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.063" timestamp="2025-07-09T21:12:39.780703+02:00" hostname="MacBook-Air-de-Elauriche.local"><testcase classname="" name="product-service.product.tests.test_models" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/elauriche/Documents/Project/EPSI/PayeTonKawa/payetonkawa-bk/product-service/product/tests/test_models.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+product-service/product/tests/test_models.py:2: in &lt;module&gt;
+    from product.models import Product
+E   ModuleNotFoundError: No module named 'product'</error></testcase></testsuite></testsuites>
