@@ -84,6 +84,7 @@ services:
       - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
       - MONGO_URI=mongodb://mongo:27017/auth-db
       - JWT_SECRET=T2iZo5KGASNOTq3zXSH31WHmnFbs7FLEVJddt54h
+    command: bash -c "sleep 10 && pnpm start"
     restart: always
     networks:
       - payetonkawa-net

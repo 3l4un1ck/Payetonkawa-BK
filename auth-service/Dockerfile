@@ -18,4 +18,4 @@ COPY . .
 RUN pnpm run build
 
 # Start the application
-CMD ["pnpm", "start"]
+#CMD ["pnpm", "start"]
