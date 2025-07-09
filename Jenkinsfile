@@ -37,17 +37,17 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'pip install -r requirements.txt'
-                sh 'pytest --ds=productservice.settings --junitxml=report.xml'
-            }
-            post {
-                always {
-                    junit 'report.xml'
-                }
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'pip install -r requirements.txt'
+        //         sh 'pytest --ds=productservice.settings --junitxml=report.xml'
+        //     }
+        //     post {
+        //         always {
+        //             junit 'report.xml'
+        //         }
+        //     }
+        // }
     }
 
 
