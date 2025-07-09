@@ -48,4 +48,34 @@ export async function startAuthConsumer() {
 
         channel.ack(msg);
     });
+
+    await channel.assertQueue('auth_check_queue', { durable: false });
+    await channel.consume('auth_check_queue', async (msg) => {
+        const { token } = JSON.parse(msg?.content?.toString() || "{}");
+        let valid = false;
+        let user = null;
+        try {
+            console.log(token);
+            user = jwt.verify(token.replace(/^Bearer\s/, ''), JWT_SECRET) as any;
+            valid = true;
+        } catch (e) {
+            valid = false;
+        }
+        const response = {
+            type: "AUTH_CHECK_RESULT",
+            valid,
+            user
+        };
+
+        if (msg && msg.properties.replyTo && msg.properties.correlationId) {
+            channel.sendToQueue(
+                msg.properties.replyTo,
+                Buffer.from(JSON.stringify(response)),
+                { correlationId: msg.properties.correlationId }
+            );
+        }
+        if (msg) {
+            channel.ack(msg);
+        }
+    });
 }

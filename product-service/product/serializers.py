@@ -3,14 +3,19 @@ from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
+
     class Meta:
         model = Product
         fields = '__all__'
         read_only_fields = ['id', 'created_at', 'updated_at']
 
     def validate(self, attrs):
-        if attrs.get('price') < 0:
-            raise serializers.ValidationError("Price cannot be negative.")
+        try:
+            if int(attrs.get('prix')) < 0:
+                raise serializers.ValidationError("Price cannot be negative.")
+        except ValueError:
+            raise serializers.ValidationError("Price must be a number.")
         return attrs
 
     def create(self, validated_data):

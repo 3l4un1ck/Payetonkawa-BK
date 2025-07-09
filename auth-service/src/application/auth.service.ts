@@ -12,7 +12,7 @@ export class AuthService {
         firstName: string,
         lastName: string,
         phoneNumber: string,
-        shippingAddress: IAddress
+        billingAddress: IAddress
     ) {
         // Validate email format
         if (!RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).exec(email)) {
@@ -49,8 +49,7 @@ export class AuthService {
             firstName,
             lastName,
             phoneNumber,
-            shippingAddresses: [shippingAddress],
-            billingAddress: shippingAddress,
+            billingAddress,
             isActive: true,
             createdAt: new Date(),
             marketingConsent: false,
@@ -68,14 +67,21 @@ export class AuthService {
     }
 
     async login(email: string, password: string) {
-        const repo = AppDataSource.getMongoRepository(User);
-        const user = await repo.findOneBy({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        try {
+            const repo = AppDataSource.getMongoRepository(User);
+            console.log(repo);
+            const user = await repo.findOneBy({ email });
+            console.log(user);
+            if (!user || !(await bcrypt.compare(password, user.password))) {
+                throw new Error("Invalid credentials");
+            }
+
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
+            return { token };
+        } catch (error) {
+            console.error(error);
             throw new Error("Invalid credentials");
         }
-
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
-        return { token };
     }
 
     async logout(token: string) {
@@ -99,9 +105,6 @@ export class AuthService {
             }
             updatedData.phoneNumber = data.phoneNumber;
         }
-        if (data.shippingAddress) {
-            updatedData.shippingAddresses = [data.shippingAddress];
-        }
         if (data.billingAddress) {
             updatedData.billingAddress = data.billingAddress;
         }
@@ -122,7 +125,6 @@ export class AuthService {
             firstName: updatedUser.firstName,
             lastName: updatedUser.lastName,
             phoneNumber: updatedUser.phoneNumber,
-            shippingAddresses: updatedUser.shippingAddresses,
             billingAddress: updatedUser.billingAddress,
             preferredCurrency: updatedUser.preferredCurrency,
             marketingConsent: updatedUser.marketingConsent

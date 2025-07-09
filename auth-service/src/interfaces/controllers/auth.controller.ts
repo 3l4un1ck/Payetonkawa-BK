@@ -69,7 +69,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             firstName: user.firstName,
             lastName: user.lastName,
             phoneNumber: user.phoneNumber,
-            shippingAddresses: user.shippingAddresses,
+            billingAddress: user.billingAddress,
             createdAt: user.createdAt
         });
     } catch (err: any) {

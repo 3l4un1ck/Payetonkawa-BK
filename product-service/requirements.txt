@@ -22,3 +22,4 @@ uritemplate==4.2.0
 psycopg2-binary
 drf-yasg2
 django-prometheus
+pillow

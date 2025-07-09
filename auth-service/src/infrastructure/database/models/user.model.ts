@@ -32,9 +32,6 @@ export class User {
     lastLoginAt?: Date;
 
     @Column(type => Address)
-    shippingAddresses!: IAddress[];
-
-    @Column(type => Address)
     billingAddress!: IAddress;
 
     @Column()
