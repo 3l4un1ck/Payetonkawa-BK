@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { AppDataSource } from "./config/database";
 import authRoutes from "./interfaces/routes/auth.routes";
 import {EventPublisher} from "./infrastructure/events/publisher";
@@ -10,6 +11,10 @@ import { startAuthConsumer } from "./infrastructure/events/consumer";
 dotenv.config();
 
 const app = express();
+app.use(cors({
+    origin: "*",
+    credentials: true,
+}));
 app.use(express.json());
 app.use("/auth", authRoutes);
 
