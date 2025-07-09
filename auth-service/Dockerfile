@@ -14,8 +14,8 @@ RUN pnpm install --frozen-lockfile
 # Copy rest of the application
 COPY . .
 
-# Build the application
-RUN pnpm run build
+# Build the application & Sleep for a while to ensure all services are up
+RUN pnpm run build && sleep 10
 
 # Start the application
-#CMD ["pnpm", "start"]
+CMD ["pnpm", "start"]
