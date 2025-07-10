@@ -12,7 +12,7 @@ from .auth_middleware import verify_token
 class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticatedViaRabbitMQ]
+    # permission_classes = [IsAuthenticatedViaRabbitMQ]
 
 class ProductListView(generics.ListCreateAPIView):
     def get(self, request):
